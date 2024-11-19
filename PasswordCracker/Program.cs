@@ -33,7 +33,7 @@ namespace PasswordCracker
                 }
                 // Move the cursor back to the beginning of the previous line
                 Console.SetCursorPosition(position.Left, position.Top);
-                Console.WriteLine($"Cracking password {j}... Please be patient...");
+                Console.WriteLine($"Cracking password... Please be patient...");
                 Console.WriteLine($"Attempt number: {j}");
                 // Display the newly generated guessed password
                 Console.WriteLine("Your password is: " + guessedPassword);
