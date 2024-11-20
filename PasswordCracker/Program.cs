@@ -5,17 +5,35 @@ namespace PasswordCracker
 {
     class Program
     {
+        static (int left, int top) position;
         static void Main(string[] args)
         {
-            Console.Write("Enter a password: ");
-            string userPassword = Console.ReadLine();
+            string userPassword = String.Empty;
+            do
+            {
+                userPassword = GetPasswordFromUser();
+                Console.WriteLine(DateTime.Now);
 
-            char[] possibleChars = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', '1', '2', '3', '4', '5', '6' };
+                char[] possibleChars = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', '1', '2', '3', '4', '5', '6', 'x' };
 
+                Counter TotalCounter = new();
+                bool foundPassword = ProcessData(userPassword, possibleChars, TotalCounter);
+
+                if (!foundPassword)
+                {
+                    Console.WriteLine("Password not found.");
+                }
+
+                Console.WriteLine(TotalCounter.GetTotal());
+                Console.WriteLine(DateTime.Now);
+            }
+            while ("x" != userPassword);
+        
+        }
+
+        private static bool ProcessData(string userPassword, char[] possibleChars, Counter TotalCounter)
+        {
             bool foundPassword = false;
-            int totalCount = 0;
-            Counter TotalCounter = new();
-
             Parallel.ForEach(Enumerable.Range(0, userPassword.Length), (i) =>
             {
                 string guessedPassword = "";
@@ -34,18 +52,20 @@ namespace PasswordCracker
                     {
                         foundPassword = true;
                         Console.WriteLine("Your password is: " + guessedPassword);
-                        Console.WriteLine(TotalCounter.GetTotal());
                     }
                     TotalCounter.Increment();
                 }
 
             });
+            return foundPassword;
+        }
 
-            if (!foundPassword)
-            {
-                Console.WriteLine("Password not found.");
-                Console.WriteLine(TotalCounter.GetTotal());
-            }
+        private static string GetPasswordFromUser()
+        {
+            string userPassword;
+            Console.Write("Enter a password: ");
+            userPassword = Console.ReadLine() ?? String.Empty;
+            return userPassword;
         }
     }
 }
