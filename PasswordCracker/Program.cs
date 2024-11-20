@@ -30,6 +30,11 @@ namespace PasswordCracker
             while ("x" != userPassword);
         
         }
+        private static string GetPasswordFromUser()
+        {
+            Console.Write("Enter a password: ");
+            return Console.ReadLine() ?? String.Empty;
+        }
 
         private static bool ProcessData(string userPassword, char[] possibleChars, Counter TotalCounter)
         {
@@ -55,18 +60,11 @@ namespace PasswordCracker
                     }
                     TotalCounter.Increment();
                 }
-
             });
             return foundPassword;
         }
 
-        private static string GetPasswordFromUser()
-        {
-            string userPassword;
-            Console.Write("Enter a password: ");
-            userPassword = Console.ReadLine() ?? String.Empty;
-            return userPassword;
-        }
+
     }
 }
 
